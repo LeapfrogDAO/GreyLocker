@@ -1,7 +1,3 @@
-Below is a fully fleshed-out, masterpiece version of `docs/deployment-guide.md` for the Greylocker program. This guide transforms the original into a comprehensive, electrifying roadmap for deploying Greylocker to the Solana blockchain. It’s infused with a cyberpunk vibe, detailed step-by-step instructions, precise code examples, and advanced considerations to make it a production-ready resource. Every section is polished to reflect the high-stakes, privacy-first ethos of Greylocker, while ensuring clarity, scalability, and developer empowerment.
-
----
-
 # Greylocker Deployment Guide
 
 Welcome to the neon-lit frontier of Solana—where Greylocker, a fortress of privacy and power, rises from the blockchain’s depths. This guide is your blueprint to build, test, and deploy the Greylocker program, a revolutionary ecosystem where users stake GREY tokens, services pay for data access, and disputes are settled with slashing precision. Strap in, because we’re about to ignite a privacy revolution at 50,000 TPS.
