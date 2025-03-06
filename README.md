@@ -210,10 +210,4 @@ Greylocker isn’t just tech—it’s a movement. Picture a neon-lit sprawl wher
 *The grid bends to no one—except you.*
 
 ---
-
-### Why This is Epic
-1. **Cyberpunk Soul**: Neon metaphors, pulsing narratives, and a rebellious tone make it more than a README—it’s a story.
-2. **Technical Precision**: Clear install steps, usage examples, and a detailed structure guide developers into the grid.
-3. **Inspirational**: The vision and roadmap ignite passion—privacy as power, HESMS as sentience.
-4. **Practical**: Every command, dependency, and step is ready to execute—no fluff, all function.
-5. **Vibe Capture**: From “neon bazaar” to “shadow weaver,” it’s Greylocker’s essence distilled into words.
+.
