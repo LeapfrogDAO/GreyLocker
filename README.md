@@ -132,28 +132,6 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 ---
 
-## Project Structure
-
-```
-greylocker/
-├── Anchor.toml          # Grid config—Solana clusters and IDs
-├── programs/            # Core programs—steel of the grid
-│   ├── greylocker/      # Main hub—tokens and staking
-│   ├── greylocker_vault/ # Vault fortress—data lock
-│   └── greylocker_zkp/  # ZKP weaver—shadow proofs
-├── app/                 # Neon frontend—command deck
-│   ├── src/
-│   │   ├── components/  # UI nodes—dashboard and visuals
-│   │   ├── utils/       # Grid tools—clients and HESMS
-│   │   └── idl/         # Program interfaces—grid blueprints
-│   └── package.json     # Frontend forge—deps and scripts
-├── tests/               # Proving ground—grid integrity
-├── migrations/          # Deployment scripts—grid launch
-└── docs/                # Grid lore—guides and blueprints
-```
-
----
-
 ## Contributing
 
 Join the rebellion—forge the grid with us:
