@@ -191,7 +191,7 @@ Guidelines in `docs/CONTRIBUTING.md`—read them, live them.
 
 ## License
 
-Greylocker is forged under the **MIT License**—open, free, and unbreakable. See `LICENSE` for the fine print.
+Greylocker is forged under the **Apache License 2.0**—open, free, and unbreakable. See `LICENSE` for the fine print.
 
 ---
 
