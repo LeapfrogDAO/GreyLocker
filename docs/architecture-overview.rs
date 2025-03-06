@@ -1,7 +1,3 @@
-Below is a fully fleshed-out, masterpiece version of `docs/architecture-overview.md` (not `.rs`, assuming that was a typo in your request). This document transforms the original Rust code into a comprehensive Markdown architecture overview for the Greylocker Solana program. It’s enriched with a cyberpunk narrative, detailed explanations of each component, precise technical breakdowns, and visual flair to make it a definitive guide to Greylocker’s design. This version is production-ready, developer-friendly, and pulsating with the privacy-first, high-stakes vibe of the Greylocker ecosystem.
-
----
-
 # Greylocker Solana Program Architecture Overview
 
 Welcome to the neon-drenched underbelly of Greylocker—a Solana-powered juggernaut where privacy reigns, tokens flow, and justice cuts like a plasma blade. Built atop the blockchain’s screaming 50,000 TPS, Greylocker is more than a program; it’s a living grid of vaults, stakes, and data streams, all orchestrated through Rust’s precision and Solana’s speed. This architecture overview is your uplink to the system’s core—detailing its components, design principles, and operational flow. Jack in, and let’s decode the matrix.
