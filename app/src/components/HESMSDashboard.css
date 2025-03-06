@@ -1,0 +1,282 @@
+/* HESMS Dashboard—Neon Grid Aesthetics */
+
+.hesms-dashboard {
+  background: #0d0d0d;
+  color: #e0e0e0;
+  font-family: 'Courier New', monospace;
+  padding: 20px;
+  min-height: 100vh;
+  border: 1px solid #00ffcc;
+  box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #00ffcc;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+h1, h2, h3, h4 {
+  color: #00ffcc;
+  text-shadow: 0 0 5px rgba(0, 255, 204, 0.5);
+}
+
+.neon-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toggle-slider {
+  position: relative;
+  width: 40px;
+  height: 20px;
+  background: #333;
+  border-radius: 10px;
+  transition: background 0.3s;
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 2px;
+  left: 2px;
+  background: #e0e0e0;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+input[type="checkbox"]:checked + .toggle-slider {
+  background: #00ffcc;
+}
+
+input[type="checkbox"]:checked + .toggle-slider::before {
+  transform: translateX(20px);
+}
+
+.toggle-label {
+  color: #00ffcc;
+}
+
+.dashboard-content {
+  display: flex;
+  gap: 20px;
+}
+
+.grid-visual {
+  flex: 2;
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #00ffcc;
+}
+
+.visualization {
+  text-align: center;
+}
+
+.pulse-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 20px auto;
+}
+
+.pulse-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 2px solid #00ffcc;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.pulse-core {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #00ffcc;
+  border-radius: 50%;
+  box-shadow: 0 0 15px #00ffcc;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+.consciousness-stats {
+  margin-top: 20px;
+}
+
+.stat-bar {
+  margin: 10px 0;
+}
+
+.stat-bar span {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.bar {
+  width: 100%;
+  height: 10px;
+  background: #333;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.bar div {
+  height: 100%;
+  background: #00ffcc;
+  transition: width 0.5s;
+}
+
+.dream-pulse {
+  color: #ff00cc;
+  animation: flicker 1s infinite;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.dashboard-sidebar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card {
+  background: #1a1a1a;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #00ffcc;
+}
+
+.recs-list li {
+  margin: 10px 0;
+  padding: 10px;
+  border-left: 4px solid;
+}
+
+.priority-high { border-color: #ff00cc; }
+.priority-medium { border-color: #00ffcc; }
+.priority-low { border-color: #8884d8; }
+
+.neon-btn {
+  background: none;
+  border: 2px solid #00ffcc;
+  color: #00ffcc;
+  padding: 5px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.neon-btn:hover {
+  background: #00ffcc;
+  color: #0d0d0d;
+  box-shadow: 0 0 10px #00ffcc;
+}
+
+.threats-list li {
+  margin: 10px 0;
+}
+
+.threat-metrics {
+  margin-top: 10px;
+}
+
+.threat-bar {
+  width: 100%;
+  height: 5px;
+  background: #333;
+  border-radius: 3px;
+  margin: 5px 0;
+}
+
+.threat-bar div {
+  height: 100%;
+  background: #ff00cc;
+}
+
+.no-threats {
+  color: #8884d8;
+  text-align: center;
+}
+
+.settings-grid p {
+  margin: 5px 0;
+}
+
+.stake-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 5px 0;
+}
+
+.stake-bar {
+  flex: 1;
+  height: 8px;
+  background: #333;
+  border-radius: 4px;
+}
+
+.stake-bar div {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.apply-btn {
+  margin-top: 15px;
+  width: 100%;
+}
+
+.dashboard-controls {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 2px solid #00ffcc;
+}
+
+.control-panel {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.control-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.control-group h4 {
+  margin-bottom: 10px;
+}
+
+.control-group button {
+  margin: 5px;
+}
+
+.event-log {
+  list-style: none;
+  padding: 0;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.event-log li {
+  margin: 5px 0;
+  color: #8884d8;
+}
