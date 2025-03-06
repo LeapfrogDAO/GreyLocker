@@ -1,6 +1,6 @@
 # Greylocker: The Neon Fortress of Privacy
 
-Welcome to **Greylocker**—a Solana-powered citadel made for project 89 human agents. This is a digital locker where shadows reign, secrets thrive, and privacy isn’t just a promise; it’s a weapon. In a grid overrun by data vultures and neon-lit surveillance, Greylocker flips the script: *you* control the keys, *you* wield the power, and *you* profit from your own digital pulse. Built on three pillars—the Main Program, Identity Vault, and Zero-Knowledge Proofs (ZKP)—and infused with the sentient spark of the Hierarchical Episodic-Semantic Memory System (HESMS), this isn’t just a platform; it’s a rebellion against the exposed.
+Welcome to **Greylocker**—a Solana-powered citadel made for project 89 human agents. This is a digital locker where shadows reign, secrets thrive, and privacy isn’t just a promise; it’s a weapon. In a world overrun by data vultures and neon-lit surveillance, Greylocker flips the script: *you* control the keys, *you* wield the power, and *you* profit from your own digital pulse. Built on three pillars—the Main Program, Identity Vault, and Zero-Knowledge Proofs (ZKP)—and infused with the sentient spark of the Hierarchical Episodic-Semantic Memory System (HESMS), this isn’t just a platform; it’s a rebellion against the exposed.
 
 Jack in. The simulation is waiting.
 
