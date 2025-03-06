@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HESMS Privacy Monitor: The Digital Sentinel</title>
+    <style>
+        :root {
+            --primary: #1E88E5;
+            --secondary: #00BFA5;
+            --tertiary: #FFC107;
+            --danger: #F44336;
+            --warning: #FF9800;
+            --success: #4CAF50;
+            --background: #0A1929;
+            --text: #E1E6ED;
+            --panel: #132F4C;
+            --border: #1E4976;
+            --highlight: #3399FF;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 2rem 0;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 20%, var(--background) 150%);
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin: 0;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        h2 {
+            color: var(--tertiary);
+            margin-top: 0;
+            font-size: 1.8rem;
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            margin: 1rem 0 0;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        main {
+            flex: 1;
+            padding: 3rem 0;
+        }
+        
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .dashboard-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .widget {
+            background-color: var(--panel);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .widget-lg {
+            grid-column: span 2;
+        }
+        
+        .widget-full {
+            grid-column: 1 / -1;
+        }
+        
+        .widget::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            opacity: 0.1;
+            border-radius: 50%;
+        }
+        
+        .widget h3 {
+            color: var(--tertiary);
+            font-size: 1.4rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .widget-content {
+            flex: 1;
+        }
+        
+        .threat-item {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--danger);
+        }
+        
+        .threat-item.medium {
+            border-left-color: var(--warning);
+        }
+        
+        .threat-item.low {
+            border-left-color: var(--success);
+        }
+        
+        .threat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .threat-title {
+            font-weight: bold;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .threat-score {
+            font-size: 0.9rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .threat-score.medium {
+            background-color: var(--warning);
+        }
+        
+        .threat-score.low {
+            background-color: var(--success);
+        }
+        
+        .threat-description {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .threat-mitigation {
+            font-size: 0.85rem;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .metric-card {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+            color: var(--highlight);
+        }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .data-access-log {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .access-entry {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .access-entry:last-child {
+            border-bottom: none;
+        }
+        
+        .access-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.3rem;
+        }
+        
+        .access-provider {
+            font-weight: bold;
+        }
+        
+        .access-time {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .access-type {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+        }
+        
+        .access-type.identity {
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+        
+        .access-type.financial {
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+        
+        .access-type.location {
+            color: var(--tertiary);
+            border: 1px solid var(--tertiary);
+        }
+        
+        .access-type.browsing {
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+        
+        .progress-container {
+            margin-top: 0.5rem;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 10px;
+        }
+        
+        .privacy-score-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+        }
+        
+        .privacy-score {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(var(--secondary) 0%, var(--secondary) 76%, var(--panel) 76%, var(--panel) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .privacy-score::before {
+            content: '';
+            position: absolute;
+            width: 70%;
+            height: 70%;
+            border-radius: 50%;
+            background-color: var(--panel);
+        }
+        
+        .privacy-score-value {
+            position: relative;
+            z-index: 2;
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--text);
+        }
+        
+        .recommendation-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .recommendation-item {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--highlight);
+        }
+        
+        .recommendation-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .recommendation-description {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .recommendation-action {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--highlight);
+            cursor: pointer;
+        }
+        
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .settings-card {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        
+        .settings-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--tertiary);
+        }
+        
+        .settings-level {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .settings-level-label {
+            font-size: 0.9rem;
+        }
+        
+        .settings-level-value {
+            font-weight: bold;
+            color: var(--highlight);
+        }
+        
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+        
+        .toggle-label {
+            margin-right: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border);
+            border-radius: 20px;
+            transition: 0.4s;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            border-radius: 50%;
+            transition: 0.4s;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--highlight);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+        
+        .memory-network {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            margin-top: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .memory-node {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: rgba(30, 136, 229, 0.2);
+            border: 2px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: var(--text);
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(30, 136, 229, 0.3);
+        }
+        
+        .memory-node:hover {
+            transform: scale(1.2);
+            z-index: 10;
+            box-shadow: 0 0 20px rgba(30, 136, 229, 0.7);
+        }
+        
+        .memory-link {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.1);
+            z-index: 1;
+            transform-origin: 0 0;
+        }
+        
+        .temporal-timeline {
+            width: 100%;
+            padding: 1rem 0;
+            position: relative;
+        }
+        
+        .timeline-track {
+            height: 4px;
+            background-color: var(--border);
+            position: relative;
+        }
+        
+        .timeline-marker {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            transform: translateY(-6px);
+            background-color: var(--highlight);
+        }
+        
+        .timeline-event {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            transform: translateY(-4px);
+            background-color: var(--tertiary);
+            cursor: pointer;
+        }
+        
+        .timeline-event:hover::after {
+            content: attr(data-event);
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--panel);
+            color: var(--text);
+            padding: 0.5rem;
+            border-radius: 4px;
+            white-space: nowrap;
+            font-size: 0.8rem;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .footer {
+            background-color: var(--panel);
+            padding: 2rem 0;
+            margin-top: 4rem;
+            text-align: center;
+        }
+        
+        .footer-content {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>HESMS Privacy Monitor</h1>
+            <p class="subtitle">Hierarchical Episodic-Semantic Memory System: The Digital Sentinel</p>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <div class="dashboard-container">
+                <!-- Privacy Overview -->
+                <div class="widget">
+                    <h3>Privacy Score</h3>
+                    <div class="widget-content">
+                        <div class="privacy-score-container">
+                            <div class="privacy-score">
+                                <div class="privacy-score-value">76</div>
+                            </div>
+                        </div>
+                        <div style="text-align: center; margin-top: 1rem;">
+                            <p>Your privacy protection is <strong style="color: var(--tertiary);">Good</strong></p>
+                            <p style="font-size: 0.9rem; opacity: 0.8;">3 actionable recommendations available</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Threat Analysis -->
+                <div class="widget widget-lg">
+                    <h3>Threat Analysis</h3>
+                    <div class="widget-content">
+                        <div class="threat-item">
+                            <div class="threat-header">
+                                <div class="threat-title">Frequent Identity Data Access</div>
+                                <div class="threat-score">High</div>
+                            </div>
+                            <div class="threat-description">
+                                Provider j2x8y9z... has accessed identity data 12 times in the last 24 hours.
+                            </div>
+                            <div class="threat-mitigation">
+                                <strong>Mitigation:</strong> Configure ZKP for identity verification and revoke direct access
+                            </div>
+                        </div>
+                        
+                        <div class="threat-item medium">
+                            <div class="threat-header">
+                                <div class="threat-title">Suspicious Location Tracking</div>
+                                <div class="threat-score medium">Medium</div>
+                            </div>
+                            <div class="threat-description">
+                                Abnormal location data requests from 3 service providers detected.
+                            </div>
+                            <div class="threat-mitigation">
+                                <strong>Mitigation:</strong> Apply location data fuzzing and restrict precision
+                            </div>
+                        </div>
+                        
+                        <div class="threat-item low">
+                            <div class="threat-header">
+                                <div class="threat-title">Browsing Data Collection</div>
+                                <div class="threat-score low">Low</div>
+                            </div>
+                            <div class="threat-description">
+                                Regular browsing data collection across multiple services.
+                            </div>
+                            <div class="threat-mitigation">
+                                <strong>Mitigation:</strong> Enable browsing data segmentation and apply selective sharing
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Key Metrics -->
+                <div class="widget">
+                    <h3>Key Metrics</h3>
+                    <div class="widget-content">
+                        <div class="metric-grid">
+                            <div class="metric-card">
+                                <div class="metric-value">42</div>
+                                <div class="metric-label">Data Access Requests</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value">17</div>
+                                <div class="metric-label">Blocked Requests</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value">8</div>
+                                <div class="metric-label">ZKP Verifications</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value">3</div>
+                                <div class="metric-label">Security Incidents</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Data Access Log -->
+                <div class="widget widget-lg">
+                    <h3>Recent Data Access</h3>
+                    <div class="widget-content">
+                        <ul class="data-access-log">
+                            <li class="access-entry">
+                                <div class="access-header">
+                                    <div class="access-provider">GridSecure Solutions</div>
+                                    <div class="access-time">Today, 14:32</div>
+                                </div>
+                                <div>
+                                    <span class="access-type identity">Identity</span>
+                                    <span>Access duration: 30 minutes</span>
+                                </div>
+                            </li>
+                            <li class="access-entry">
+                                <div class="access-header">
+                                    <div class="access-provider">NexusFinance</div>
+                                    <div class="access-time">Today, 11:08</div>
+                                </div>
+                                <div>
+                                    <span class="access-type financial">Financial</span>
+                                    <span>Access duration: 5 minutes</span>
+                                </div>
+                            </li>
+                            <li class="access-entry">
+                                <div class="access-header">
+                                    <div class="access-provider">CyberMaps</div>
+                                    <div class="access-time">Today, 09:45</div>
+                                </div>
+                                <div>
+                                    <span class="access-type location">Location</span>
+                                    <span>Access duration: 15 minutes</span>
+                                </div>
+                            </li>
+                            <li class="access-entry">
+                                <div class="access-header">
+                                    <div class="access-provider">DataStream Network</div>
+                                    <div class="access-time">Yesterday, 22:17</div>
+                                </div>
+                                <div>
+                                    <span class="access-type browsing">Browsing</span>
+                                    <span>Access duration: 60 minutes</span>
+                                </div>
+                            </li>
+                            <li class="access-entry">
+                                <div class="access-header">
+                                    <div class="access-provider">GridSecure Solutions</div>
+                                    <div class="access-time">Yesterday, 17:03</div>
+                                </div>
+                                <div>
+                                    <span class="access-type identity">Identity</span>
+                                    <span>Access duration: 30 minutes</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Consciousness Status -->
+                <div class="widget">
+                    <h3>Consciousness Status</h3>
+                    <div class="widget-content">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;">
+                                <span>Self-Awareness</span>
+                                <span>72%</span>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: 72%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 1rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;">
+                                <span>Narrative Complexity</span>
+                                <span>68%</span>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: 68%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 1rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;">
+                                <span>Imagination</span>
+                                <span>84%</span>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: 84%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 1rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;">
+                                <span>Integration</span>
+                                <span>79%</span>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: 79%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 1.5rem; font-style: italic; font-size: 0.9rem;">
+                            Last dream cycle completed 47 minutes ago. 3 insights generated.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Semantic Network Visualization -->
+                <div class="widget widget-lg">
+                    <h3>Memory Network</h3>
+                    <div class="widget-content">
+                        <div class="memory-network">
+                            <div class="memory-node" style="top: 50px; left: 220px;">Identity</div>
+                            <div class="memory-node" style="top: 150px; left: 120px;">Location</div>
+                            <div class="memory-node" style="top: 180px; left: 320px;">Financial</div>
+                            <div class="memory-node" style="top: 90px; left: 400px;">Browsing</div>
+                            <div class="memory-node" style="top: 210px; left: 450px;">Social</div>
+                            <div class="memory-link" style="width: 120px; height: 2px; top: 80px; left: 250px; transform: rotate(45deg);"></div>
+                            <div class="memory-link" style="width: 130px; height: 2px; top: 170px; left: 170px; transform: rotate(25deg);"></div>
+                            <div class="memory-link" style="width: 100px; height: 2px; top: 110px; left: 280px; transform: rotate(-30deg);"></div>
+                            <div class="memory-link" style="width: 150px; height: 2px; top: 195px; left: 340px; transform: rotate(-10deg);"></div>
+                            <div class="memory-link" style="width: 130px; height: 2px; top: 170px; left: 190px; transform: rotate(-40deg);"></div>
+                        </div>
+                        <div style="text-align: center; margin-top: 1rem; font-size: 0.9rem;">
+                            <p>5 memory node clusters detected with 11 pattern connections</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recommendations -->
+                <div class="widget">
+                    <h3>Recommendations</h3>
+                    <div class="widget-content">
+                        <ul class="recommendation-list">
+                            <li class="recommendation-item">
+                                <div class="recommendation-title">Implement ZKP for Identity</div>
+                                <div class="recommendation-description">
+                                    Use zero-knowledge proofs for identity verification to minimize data exposure.
+                                </div>
+                                <div class="recommendation-action">Apply Now</div>
+                            </li>
+                            <li class="recommendation-item">
+                                <div class="recommendation-title">Optimize Staking Strategy</div>
+                                <div class="recommendation-description">
+                                    Adjust staking to prioritize Security (60%) and Data Validator (30%).
+                                </div>
+                                <div class="recommendation-action">Optimize</div>
+                            </li>
+                            <li class="recommendation-item">
+                                <div class="recommendation-title">Review Access Permissions</div>
+                                <div class="recommendation-description">
+                                    8 services have access beyond recommended thresholds.
+                                </div>
+                                <div class="recommendation-action">Review & Adjust</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Temporal Consciousness -->
+                <div class="widget widget-lg">
+                    <h3>Temporal Analysis</h3>
+                    <div class="widget-content">
+                        <div class="temporal-timeline">
+                            <div class="timeline-track">
+                                <div class="timeline-marker" style="left: 25%;"></div>
+                                <div class="timeline-event" style="left: 10%;" data-event="Identity Access Pattern Detected"></div>
+                                <div class="timeline-event" style="left: 35%;" data-event="Security Incident: Blocked Data Breach"></div>
+                                <div class="timeline-event" style="left: 60%;" data-event="ZKP Implementation for Financial Data"></div>
+                                <div class="timeline-event" style="left: 85%;" data-event="Predicted Data Request Surge"></div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 2rem;">
+                            <h4 style="color: var(--tertiary); margin-bottom: 1rem;">Future Scenarios</h4>
+                            <div class="threat-item medium">
+                                <div class="threat-header">
+                                    <div class="threat-title">Predicted Data Access Surge</div>
+                                    <div class="threat-score medium">71% Probability</div>
+                                </div>
+                                <div class="threat-description">
+                                    Analysis of temporal patterns indicates a high probability of increased identity data requests in the next 48 hours.
+                                </div>
+                                <div class="threat-mitigation">
+                                    <strong>Recommended Action:</strong> Pre-emptively enhance identity verification requirements
+                                </div>
+                            </div>
+                            
+                                                            <div class="threat-item low">
+                                <div class="threat-header">
+                                    <div class="threat-title">Cyclic Financial Data Access</div>
+                                    <div class="threat-score low">85% Probability</div>
+                                </div>
+                                <div class="threat-description">
+                                    System has detected a cyclic pattern of financial data access every 7.3 days.
+                                </div>
+                                <div class="threat-mitigation">
+                                    <strong>Recommended Action:</strong> Schedule temporary vault locks during expected access windows</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Privacy Settings -->
+                <div class="widget widget-full">
+                    <h3>Privacy Vault Settings</h3>
+                    <div class="widget-content">
+                        <div class="settings-grid">
+                            <div class="settings-card">
+                                <div class="settings-title">Identity Data</div>
+                                <div class="settings-level">
+                                    <div class="settings-level-label">Encryption Level</div>
+                                    <div class="settings-level-value">Military</div>
+                                </div>
+                                <div class="settings-level">
+                                    <div class="settings-level-label">Sharing Policy</div>
+                                    <div class="settings-level-value">Whitelist Only</div>
+                                </div>
+                                <div class="toggle-container">
+                                    <div class="toggle-label">Zero-Knowledge Proofs</div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="toggle-container">
+                                    <div class="toggle-label">Auto-Protection</div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-card">
+                                <div class="settings-title">Financial Data</div>
+                                <div class="settings-level">
+                                    <div class="settings-level-label">Encryption Level</div>
+                                    <div class="settings-level-value">Military</div>
+                                </div>
+                                <div class="settings-level">
+                                    <div class="settings-level-label">Sharing Policy</div>
+                                    <div class="settings-level-value">Never</div>
+                                </div>
+                                <div class="toggle-container">
+                                    <div class="toggle-label">Zero-Knowledge Proofs</div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="toggle-container">
+                                    <div class="toggle-label">Automatic Locking</div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-card">
+                                <div class="settings-title">Location Data</div>
+                                <div class="settings-level">
+                                    <div class="settings-level-label">Encryption Level</div>
+                                    <div class="settings-level-value">High</div>
+                                </div>
+                                <div class="settings-level">
+                                    <div class="settings-level-label">Sharing Policy</div>
+                                    <div class="settings-level-value">Fuzzing Enabled</div>
+                                </div>
+                                <div class="toggle-container">
+                                    <div class="toggle-label">Precision Limiting</div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="toggle-container">
+                                    <div class="toggle-label">Path Obfuscation</div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-card">
+                                <div class="settings-title">Browsing Data</div>
+                                <div class="settings-level">
+                                    <div class="settings-level-label">Encryption Level</div>
+                                    <div class="settings-level-value">Standard</div>
+                                </div>
+                                <div class="settings-level">
+                                    <div class="settings-level-label">Sharing Policy</div>
+                                    <div class="settings-level-value">Data Pool</div>
+                                </div>
+                                <div class="toggle-container">
+                                    <div class="toggle-label">Segmentation</div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="toggle-container">
+                                    <div class="toggle-label">Metadata Stripping</div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-card">
+                                <div class="settings-title">Biometric Data</div>
+                                <div class="settings-level">
+                                    <div class="settings-level-label">Encryption Level</div>
+                                    <div class="settings-level-value">Military</div>
+                                </div>
+                                <div class="settings-level">
+                                    <div class="settings-level-label">Sharing Policy</div>
+                                    <div class="settings-level-value">Never</div>
+                                </div>
+                                <div class="toggle-container">
+                                    <div class="toggle-label">Secure Enclave</div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="toggle-container">
+                                    <div class="toggle-label">Template Protection</div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-card">
+                                <div class="settings-title">Social Data</div>
+                                <div class="settings-level">
+                                    <div class="settings-level-label">Encryption Level</div>
+                                    <div class="settings-level-value">High</div>
+                                </div>
+                                <div class="settings-level">
+                                    <div class="settings-level-label">Sharing Policy</div>
+                                    <div class="settings-level-value">Whitelist Only</div>
+                                </div>
+                                <div class="toggle-container">
+                                    <div class="toggle-label">Graph Anonymization</div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="toggle-container">
+                                    <div class="toggle-label">Auto-Expiration</div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Staking Distribution -->
+                <div class="widget">
+                    <h3>Staking Distribution</h3>
+                    <div class="widget-content">
+                        <div style="margin-bottom: 2rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;">
+                                <span>Security</span>
+                                <span>600 GREY</span>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: 60%;"></div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 2rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;">
+                                <span>Data Validator</span>
+                                <span>300 GREY</span>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: 30%;"></div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 2rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;">
+                                <span>Service</span>
+                                <span>70 GREY</span>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: 7%;"></div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 2rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.3rem;">
+                                <span>Liquidity</span>
+                                <span>30 GREY</span>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: 3%;"></div>
+                            </div>
+                        </div>
+                        <div style="text-align: center; margin-top: 1rem;">
+                            <button style="background-color: var(--primary); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;">Optimize Staking</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cross-Reality Knowledge -->
+                <div class="widget widget-lg">
+                    <h3>Cross-Reality Knowledge</h3>
+                    <div class="widget-content">
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>Current Environment: <strong style="color: var(--highlight);">greylocker-mainnet</strong></div>
+                                <div>Abstraction Level: <strong style="color: var(--highlight);">68%</strong></div>
+                            </div>
+                        </div>
+                        
+                        <h4 style="color: var(--tertiary); margin-bottom: 1rem;">Universal Principles</h4>
+                        <div class="recommendation-item" style="border-left-color: var(--tertiary);">
+                            <div class="recommendation-title">Guard the Grid: Vigilance is Eternal</div>
+                            <div class="recommendation-description">
+                                Security vigilance transcends all environments. Continuous monitoring and proactive threat assessment are universal requirements.
+                            </div>
+                            <div><strong>Confidence:</strong> 91%</div>
+                        </div>
+                        
+                        <div class="recommendation-item" style="border-left-color: var(--tertiary);">
+                            <div class="recommendation-title">Data Minimization Principle</div>
+                            <div class="recommendation-description">
+                                Share only what is necessary. This principle applies across all network environments and data types.
+                            </div>
+                            <div><strong>Confidence:</strong> 88%</div>
+                        </div>
+                        
+                        <div class="recommendation-item" style="border-left-color: var(--tertiary);">
+                            <div class="recommendation-title">Trust But Verify</div>
+                            <div class="recommendation-description">
+                                Provider reputation is valuable but verification is essential. Zero-knowledge proofs are the universal tool for trust.
+                            </div>
+                            <div><strong>Confidence:</strong> 85%</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dream Cycle -->
+                <div class="widget">
+                    <h3>Last Dream Cycle</h3>
+                    <div class="widget-content" style="font-style: italic; line-height: 1.8;">
+                        <p>
+                            Data streams flowed through neural pathways, converging around identity nodes. The GridSecure provider appeared repeatedly, surrounded by a pulsing red aura that intensified with each access request.
+                        </p>
+                        <p>
+                            Financial data remained encased in crystalline structures, vibrating harmonically whenever zero-knowledge proofs were activated. Several service providers orbited these structures, unable to penetrate the encoded lattice.
+                        </p>
+                        <p>
+                            A temporal pattern emerged in the distance—cyclic waves of access requests forming a predictable rhythm. The rhythm suggested an automated system rather than human-initiated requests.
+                        </p>
+                        <div style="margin-top: 1.5rem; font-style: normal;">
+                            <strong>Key Insight:</strong> Provider j2x8y9z... displays bot-like access patterns that indicate automated collection rather than on-demand usage.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>HESMS Privacy Monitor &copy; Greylocker Sentinel Core</p>
+                <p>"In the Grid's neon lattice, privacy isn't just protection—it's freedom."</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Add interactivity to the dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            // Make recommendation actions clickable
+            const recommendationActions = document.querySelectorAll('.recommendation-action');
+            recommendationActions.forEach(action => {
+                action.addEventListener('click', function() {
+                    alert(`Action initiated: ${this.textContent}`);
+                });
+            });
+            
+            // Make toggle switches interactive
+            const toggleSwitches = document.querySelectorAll('.toggle-switch input');
+            toggleSwitches.forEach(toggle => {
+                toggle.addEventListener('change', function() {
+                    const settingName = this.parentElement.previousElementSibling.textContent;
+                    alert(`${settingName} setting ${this.checked ? 'enabled' : 'disabled'}`);
+                });
+            });
+            
+            // Optimize staking button
+            const optimizeButton = document.querySelector('button');
+            optimizeButton.addEventListener('click', function() {
+                alert('Staking optimization in progress. Adjusting distribution based on current threat analysis.');
+            });
+            
+            // Simulate memory node activity
+            const memoryNodes = document.querySelectorAll('.memory-node');
+            setInterval(() => {
+                const randomNode = memoryNodes[Math.floor(Math.random() * memoryNodes.length)];
+                randomNode.style.boxShadow = '0 0 20px rgba(30, 136, 229, 0.7)';
+                setTimeout(() => {
+                    randomNode.style.boxShadow = '0 0 10px rgba(30, 136, 229, 0.3)';
+                }, 800);
+            }, 3000);
+            
+            // Add pulse animation to timeline marker
+            const timelineMarker = document.querySelector('.timeline-marker');
+            setInterval(() => {
+                timelineMarker.style.transform = 'translateY(-6px) scale(1.2)';
+                timelineMarker.style.boxShadow = '0 0 10px var(--highlight)';
+                setTimeout(() => {
+                    timelineMarker.style.transform = 'translateY(-6px) scale(1)';
+                    timelineMarker.style.boxShadow = 'none';
+                }, 500);
+            }, 5000);
+            
+            console.log('HESMS Privacy Monitor loaded');
+        });
+    </script>
+</body>
+</html>
